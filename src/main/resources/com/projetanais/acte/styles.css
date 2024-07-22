@@ -1,0 +1,86 @@
+* {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-font-family: "Poppins";
+}
+
+#bar-top {
+    -fx-background-color: #ffffff;
+    -fx-spacing: 50;
+    -fx-effect: dropshadow(gaussian, rgba(188, 188, 188, 0.626), 20, 0.3, 0, 0.5);
+    -fx-pref-width: 100%;
+}
+
+#bar-left {
+    -fx-background-color: #C5C6C6;
+    -fx-padding: 0 0 0 30;
+}
+
+.label-menu {
+    -fx-font-size: 16px;
+    -fx-font-family: "Poppins";
+    -fx-text-fill: #585858; 
+}
+
+#menu_icon {
+    -fx-translate-y: -90px;
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+}
+
+#menu_icon:hover {
+    -fx-background-color: lightgray;
+    -fx-border-color: transparent;
+    -fx-border-width: 0; 
+    -fx-cursor: hand; 
+}
+
+#cadre2 {
+    -fx-pref-width: 400px; 
+    -fx-pref-height: 200px;
+    -fx-alignment: center;
+}
+
+#cadre2 > .label {
+    -fx-font-size: 16;
+    -fx-font-family: "Poppins";
+}
+
+#cadreBox {
+    -fx-pref-width: 50px; 
+    -fx-pref-height: 50px;
+    -fx-padding: 10px;
+    -fx-border-width: 1px;
+    -fx-border-color: gray;
+}
+
+#box_distric{
+    -fx-background-color: #d37575;
+    -fx-border-color: gray;
+    -fx-alignment: center;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+#box_distric > .label{
+    -fx-font-family: "Poppins";
+    -fx-font-size: 24px;
+}
+
+#box_nb{
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 30;
+}
+
+#box_nb > .label {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 18px;
+}
+
+#home {
+    -fx-start-margin: -50px;
+    -fx-background-color: #ffffff;
+    -fx-pref-height: 650px;
+    -fx-padding: 20px;
+}
+

@@ -1,0 +1,26 @@
+#intro {
+    -fx-font-weight: bold;
+    -fx-font-size: 34px;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+.text-field{
+    -fx-pref-height: 25px;
+    -fx-font-size: 14px;
+    -fx-border-color: gray;
+}
+
+.text-field:focused{
+    -fx-border-color: rgb(198, 198, 198);
+}
+
+.button{
+    -fx-pref-width: 200;
+    -fx-pref-height: 30px;
+    -fx-font-size: 18px;
+    -fx-background-color: #703048;
+    -fx-text-fill: #F0E8DA;
+}
