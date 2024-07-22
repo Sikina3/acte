@@ -179,11 +179,11 @@ public class nouvelle_enfant {
         // Section sur l'enfant
         gridPane.add(intro, 0, row++);
         gridPane.add(createSectionLabel("Informations sur l'enfant"), 0, row++, 2, 1);
-        gridPane.add(createLabeledField("Nom de l'enfant:", textField1), 0, row);
-        gridPane.add(createLabeledField("Prénom de l'enfant:", textField2), 1, row++);
+        gridPane.add(createLabeledField("Nom :", textField1), 0, row);
+        gridPane.add(createLabeledField("Prénom:", textField2), 1, row++);
         gridPane.add(createLabeledField("Date de naissance:", textField3), 0, row);
         gridPane.add(createLabeledField("Lieu de naissance:", textField4), 1, row++);
-        gridPane.add(createCombo("Sexe de l'enfant:", sexeComboBox), 0, row);
+        gridPane.add(createCombo("Sexe :", sexeComboBox), 0, row);
         gridPane.add(createLabeledField("Heure de naissance", textField16), 1, row++);
 
         // Section sur les parents
