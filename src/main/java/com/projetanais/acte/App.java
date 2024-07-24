@@ -38,7 +38,7 @@ public class App extends Application {
     }
 
     private void initialisation_Menu() {
-        icon_menu = new Image(getClass().getResourceAsStream(extracted()));
+        icon_menu = new Image(getClass().getResourceAsStream("menuB.png"));
         icon_ajout = new Image(getClass().getResourceAsStream("creer.png"));
         icon_consu = new Image(getClass().getResourceAsStream("visualisation-de-donnees.png"));
         icon_accueil = new Image(getClass().getResourceAsStream("maison.png"));

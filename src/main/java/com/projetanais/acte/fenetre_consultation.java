@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -30,6 +32,7 @@ public class fenetre_consultation {
         this.stage = stage;
         scene = new Scene(root, 1000, 700);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("style_consu.css").toExternalForm());
 
         stage.setScene(scene);
         stage.setTitle("Consultation de la liste");
@@ -157,14 +160,11 @@ public class fenetre_consultation {
         box_consultation.setSpacing(10);
         box_consultation.setPadding(new Insets(20));
 
-        Label titre = new Label("Consultation des Actes de Naissance");
-        titre.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
         HBox filterBox = new HBox();
         filterBox.setSpacing(5);
 
         ComboBox<String> filterComboBox = new ComboBox<>();
-        filterComboBox.getItems().addAll("Nom", "Date de naissance", "Lieu de naissance", "Nom des parents");
+        filterComboBox.getItems().addAll("Nom Enfant", "Date de naissance", "Lieu de naissance", "Nom des parents");
         filterComboBox.setPromptText("Filtrer par");
 
         TextField edit_chercher = new TextField();
@@ -172,7 +172,10 @@ public class fenetre_consultation {
 
         Button chercher = new Button("Rechercher");
 
-        filterBox.getChildren().addAll(filterComboBox, edit_chercher, chercher);
+        Region espaceVide = new Region();
+        HBox.setHgrow(espaceVide, Priority.ALWAYS);
+
+        filterBox.getChildren().addAll(filterComboBox, espaceVide, edit_chercher, chercher);
 
         TableView<Enfant> tableView = new TableView<>();
 
@@ -202,12 +205,11 @@ public class fenetre_consultation {
         ObservableList<Enfant> enfants = FXCollections.observableArrayList(
             new Enfant(001, "28 janvier 2003", "Dupont", "Jean", "Paris", "Dupont Père", "M"),
             new Enfant(002, "15 mars 2005", "Durand", "Marie", "Lyon", "Durand Mère", "F")
-           
         );
 
         tableView.setItems(enfants);
 
-        box_consultation.getChildren().addAll(titre, filterBox, tableView);
+        box_consultation.getChildren().addAll(filterBox, tableView);
 
         return box_consultation;
     }
