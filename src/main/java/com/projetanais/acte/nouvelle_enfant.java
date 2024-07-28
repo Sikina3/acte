@@ -43,22 +43,22 @@ public class nouvelle_enfant {
     }
 
     private void initialisation_Menu() {
-        icon_menu = new Image(getClass().getResourceAsStream("menuB.png"));
-        icon_ajout = new Image(getClass().getResourceAsStream("creer.png"));
-        icon_consu = new Image(getClass().getResourceAsStream("visualisation-de-donnees.png"));
-        icon_accueil = new Image(getClass().getResourceAsStream("maison.png"));
-        icon_param = new Image(getClass().getResourceAsStream("parametres.png"));
+        icon_menu = new Image(getClass().getResourceAsStream("menumenu.png"));
+        icon_ajout = new Image(getClass().getResourceAsStream("ajouter.png"));
+        icon_consu = new Image(getClass().getResourceAsStream("liste.png"));
+        icon_accueil = new Image(getClass().getResourceAsStream("accueil.png"));
+        icon_param = new Image(getClass().getResourceAsStream("partir.png"));
 
         image_menu = new ImageView(icon_menu);
-        image_menu.setOpacity(0.6);
+        image_menu.setOpacity(0.8);
         image_ajout = new ImageView(icon_ajout);
-        image_ajout.setOpacity(0.4);
+        image_ajout.setOpacity(1);
         image_consu = new ImageView(icon_consu);
-        image_consu.setOpacity(0.4);
+        image_consu.setOpacity(1);
         image_modif = new ImageView(icon_accueil);
-        image_modif.setOpacity(0.4);
+        image_modif.setOpacity(0.8);
         image_param = new ImageView(icon_param);
-        image_param.setOpacity(0.4);
+        image_param.setOpacity(1);
 
         // gauche
         image_ajout.setFitWidth(24);
@@ -77,13 +77,13 @@ public class nouvelle_enfant {
 
         bar = new VBox();
         bar.setId("bar-left");
-        bar.setPrefWidth(40);
+        bar.setPrefWidth(20);
         bar.setAlignment(Pos.CENTER);
         bar.setSpacing(60);
 
         menu_ajout = new Label("Ajouter");
         menu_consu = new Label("Consulter");
-        menu_accueil = new Label("Modifier");
+        menu_accueil = new Label("Accueil");
         menu_param = new Label("Paramètres");
 
         // classe
@@ -93,29 +93,42 @@ public class nouvelle_enfant {
         menu_param.getStyleClass().add("label-menu");
 
         HBox hboxAjout = new HBox(image_ajout, menu_ajout);
-        // hboxAjout.setAlignment(Pos.CENTER);
+        //hboxAjout.setAlignment(Pos.CENTER);
         hboxAjout.setPrefHeight(50);
         hboxAjout.setSpacing(20);
 
         HBox hboxConsu = new HBox(image_consu, menu_consu);
-        // hboxConsu.setAlignment(Pos.CENTER);
+        //hboxConsu.setAlignment(Pos.CENTER);
         hboxConsu.setSpacing(20);
         hboxConsu.setPrefHeight(50);
 
         HBox hbox_accueil = new HBox(image_modif, menu_accueil);
-        // hbox_accueil.setAlignment(Pos.CENTER);
+        //hbox_accueil.setAlignment(Pos.CENTER);
         hbox_accueil.setSpacing(20);
         hbox_accueil.setPrefHeight(50);
 
         HBox hboxParam = new HBox(image_param, menu_param);
-        // hboxParam.setAlignment(Pos.CENTER);
+        //hboxParam.setAlignment(Pos.CENTER);
         hboxParam.setSpacing(20);
         hboxParam.setPrefHeight(50);
+
+        hboxAjout.getStyleClass().add("conteneur");
+        hboxConsu.getStyleClass().add("conteneur");
+        hboxParam.getStyleClass().add("conteneur");
+        hbox_accueil.getStyleClass().add("conteneur");
 
         menu_ajout.setVisible(false);
         menu_consu.setVisible(false);
         menu_accueil.setVisible(false);
         menu_param.setVisible(false);
+
+        hbox_accueil.setOnMouseClicked(event -> {
+            App accueil = new App();
+            Stage stage_accueil = new Stage();
+            accueil.start(stage_accueil);
+
+            stage.close();
+        });
 
         hboxConsu.setOnMouseClicked(event -> {
             fenetre_consultation consultation = new fenetre_consultation();
@@ -124,27 +137,20 @@ public class nouvelle_enfant {
             stage.close();
         });
 
-        hbox_accueil.setOnMouseClicked(event -> {
-            App accueil = new App();
-            Stage stage_accueil = new Stage();
-            accueil.start(stage_accueil);
-            stage.close();
-        });
-
         menu_icon = new Label();
         menu_icon.setGraphic(image_menu);
         menu_icon.setId("menu_icon");
         menu_icon.setOnMouseClicked(event -> {
             if (i == 0) {
-                bar.setPrefWidth(200);
+                bar.setPrefWidth(170);
                 menu_ajout.setVisible(true);
                 menu_consu.setVisible(true);
                 menu_accueil.setVisible(true);
                 menu_param.setVisible(true);
-                menu_icon.setStyle("-fx-translate-x: -50px;");
+                menu_icon.setStyle("-fx-translate-x: -60px;");
                 i = 1;
             } else if (i == 1) {
-                bar.setPrefWidth(70);
+                bar.setPrefWidth(40);
                 menu_ajout.setVisible(false);
                 menu_consu.setVisible(false);
                 menu_accueil.setVisible(false);
@@ -158,12 +164,12 @@ public class nouvelle_enfant {
 
         root.setLeft(bar);
     }
-
+    
     private ScrollPane page_de_creation() {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(30); // Espacement horizontal entre les colonnes
         gridPane.setVgap(20); // Espacement vertical entre les lignes
-        gridPane.setPadding(new Insets(20));
+        gridPane.setPadding(new Insets(30));
 
         initialisation_TextField();
 
@@ -173,18 +179,19 @@ public class nouvelle_enfant {
 
         // Ajouter les labels et les champs de texte au GridPane
         int row = 0;
-        Label intro = new Label("Creation d'un acte de Naissance");
-        intro.setId("intro");
+        /* Label intro = new Label("Creation d'un acte de Naissance");
+        intro.setId("intro"); */
 
         // Section sur l'enfant
-        gridPane.add(intro, 0, row++);
+        //gridPane.add(intro, 0, row++);
         gridPane.add(createSectionLabel("Informations sur l'enfant"), 0, row++, 2, 1);
         gridPane.add(createLabeledField("Nom :", textField1), 0, row);
         gridPane.add(createLabeledField("Prénom:", textField2), 1, row++);
         gridPane.add(createLabeledField("Date de naissance:", textField3), 0, row);
         gridPane.add(createLabeledField("Lieu de naissance:", textField4), 1, row++);
-        gridPane.add(createCombo("Sexe :", sexeComboBox), 0, row);
-        gridPane.add(createLabeledField("Heure de naissance", textField16), 1, row++);
+        gridPane.add(createLabeledField("Heure de naissance", textField16), 0, row);
+        gridPane.add(createLabeledField("Condition : ", textField18), 1, row++);
+        gridPane.add(createCombo("Sexe :", sexeComboBox), 0, row++);
 
         // Section sur les parents
         gridPane.add(createSectionLabel("Informations sur le père"), 0, row++, 2, 1);
@@ -203,12 +210,61 @@ public class nouvelle_enfant {
 
         // Section sur l'acte
         gridPane.add(createSectionLabel("Informations sur l'acte"), 0, row++, 2, 1);
-        gridPane.add(createLabeledField("Date de la réalisation de l'acte:", textField14), 0, row);
-        gridPane.add(createLabeledField("Heure", textField17), 1, row++);
-        gridPane.add(createLabeledField("Nom du docteur:", textField15), 0, row++);
+        gridPane.add(createLabeledField("Distric de :", textField19), 0, row);
+        gridPane.add(createLabeledField("Commune de :", textField20), 1, row++);
+        gridPane.add(createLabeledField("Nom du docteur:", textField15), 0, row);
+        gridPane.add(createLabeledField("Date de la réalisation de l'acte:", textField14), 1, row++);
+        gridPane.add(createLabeledField("Heure", textField17), 0, row);
+        gridPane.add(createLabeledField("Condition :", textField21), 1, row++);
+        gridPane.add(createLabeledField("Nom de la responsable:", textField22), 0, row++);
 
         enregistrer = new Button("Enregistrer");
         gridPane.add(enregistrer, 1, row);
+
+        enregistrer.setOnAction(event -> {
+            // Recuperation des donnee des champs de texte pour l'enfant
+            String nom_enfant = textField1.getText();
+            String prenom_enfant = textField2.getText();
+            String dateNaissance = textField3.getText();
+            String lieuNaissance = textField4.getText();
+            String heureNaissance = textField16.getText();
+            String condition = textField18.getText();
+            String sexe = sexeComboBox.getValue(); 
+        
+            // Recuperation des donnee des champs de texte pour le père
+            String nomPere = textField5.getText();
+            String dateNaissancePere = textField6.getText();
+            String lieuNaissancePere = textField7.getText();
+            String professionPere = textField8.getText();
+        
+            // Recuperation des donnee des champs de texte pour la mère
+            String nomMere = textField9.getText();
+            String dateNaissanceMere = textField10.getText();
+            String lieuNaissanceMere = textField11.getText();
+            String professionMere = textField12.getText();
+        
+            String adresse = textField13.getText();
+        
+            // Recuperation des donnee des champs de texte pour l'acte
+            String distric = textField19.getText();
+            String commune = textField20.getText();
+            String nomDocteur = textField15.getText();
+            String dateCreationActe = textField14.getText();
+            String heureActe = textField17.getText();
+            String conditionActe = textField21.getText();
+            String nomResponsable = textField22.getText();
+        
+            Parents parents = new Parents(nomPere, nomMere, dateNaissancePere, dateNaissanceMere, lieuNaissancePere, lieuNaissanceMere, professionPere, professionMere, adresse);
+            parents.sauvegarder();
+        
+            Enfant enfant = new Enfant(parents.getId(), nom_enfant, prenom_enfant, dateNaissance, lieuNaissance, heureNaissance, condition, sexe);
+            enfant.sauvegarder();
+        
+            Acte acte = new Acte(enfant.getId(), dateCreationActe, heureActe, conditionActe, nomDocteur, nomResponsable, distric, commune);
+            acte.sauvegarder();
+        
+            System.out.println("Les informations ont été enregistrées avec succès !");
+        });
 
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
@@ -285,6 +341,16 @@ public class nouvelle_enfant {
         textField16.setPromptText("Ex: 16h 30");
         textField17 = new TextField();
         textField17.setPromptText("Ex: 16h 30");
+        textField18 = new TextField();
+        textField18.setPromptText("matin ou soir");
+        textField19 = new TextField();
+        textField19.setPromptText("disc ");
+        textField20 = new TextField();
+        textField20.setPromptText("com ");
+        textField21 = new TextField();
+        textField21.setPromptText("matin ou soir");
+        textField22 = new TextField();
+        textField22.setPromptText("resp ");
     }
 
     private VBox bar;
@@ -292,7 +358,7 @@ public class nouvelle_enfant {
     private ImageView image_menu, image_ajout, image_consu, image_modif, image_param;
     private Label menu_icon, menu_ajout, menu_consu, menu_accueil, menu_param;
     private TextField textField1, textField2, textField3, textField4, textField5, textField6, textField7, textField8,
-            textField9, textField10, textField11, textField12, textField13, textField14, textField15, textField16, textField17;
+            textField9, textField10, textField11, textField12, textField13, textField14, textField15, textField16, textField17, textField18, textField19, textField20, textField21, textField22;
     private Button enregistrer;
 
 }

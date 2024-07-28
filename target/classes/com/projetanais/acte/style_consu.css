@@ -2,7 +2,16 @@
     -fx-font-size: 14px;
 }
 
-.table-view .column-header{
-    
+.text-field{
+    -fx-pref-width: 300px;
+    -fx-font-size: 14px;
 }
 
+.table-view{
+    -fx-translate-y: 30px;
+    -fx-font-size: 14px;
+}
+
+.column-header-background {
+    -fx-background-color: red;
+}

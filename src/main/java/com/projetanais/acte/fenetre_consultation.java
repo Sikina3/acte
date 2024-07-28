@@ -11,8 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -43,22 +41,22 @@ public class fenetre_consultation {
     }
 
     private void initialisation_Menu() {
-        icon_menu = new Image(getClass().getResourceAsStream("menuB.png"));
-        icon_ajout = new Image(getClass().getResourceAsStream("creer.png"));
-        icon_consu = new Image(getClass().getResourceAsStream("visualisation-de-donnees.png"));
-        icon_accueil = new Image(getClass().getResourceAsStream("maison.png"));
-        icon_param = new Image(getClass().getResourceAsStream("parametres.png"));
+        icon_menu = new Image(getClass().getResourceAsStream("menumenu.png"));
+        icon_ajout = new Image(getClass().getResourceAsStream("ajouter.png"));
+        icon_consu = new Image(getClass().getResourceAsStream("liste.png"));
+        icon_accueil = new Image(getClass().getResourceAsStream("accueil.png"));
+        icon_param = new Image(getClass().getResourceAsStream("partir.png"));
 
         image_menu = new ImageView(icon_menu);
-        image_menu.setOpacity(0.6);
+        image_menu.setOpacity(0.8);
         image_ajout = new ImageView(icon_ajout);
-        image_ajout.setOpacity(0.4);
+        image_ajout.setOpacity(1);
         image_consu = new ImageView(icon_consu);
-        image_consu.setOpacity(0.4);
+        image_consu.setOpacity(1);
         image_modif = new ImageView(icon_accueil);
-        image_modif.setOpacity(0.4);
+        image_modif.setOpacity(0.8);
         image_param = new ImageView(icon_param);
-        image_param.setOpacity(0.4);
+        image_param.setOpacity(1);
 
         // gauche
         image_ajout.setFitWidth(24);
@@ -77,13 +75,13 @@ public class fenetre_consultation {
 
         bar = new VBox();
         bar.setId("bar-left");
-        bar.setPrefWidth(40);
+        bar.setPrefWidth(20);
         bar.setAlignment(Pos.CENTER);
         bar.setSpacing(60);
 
         menu_ajout = new Label("Ajouter");
         menu_consu = new Label("Consulter");
-        menu_accueil = new Label("Modifier");
+        menu_accueil = new Label("Accueil");
         menu_param = new Label("Paramètres");
 
         // classe
@@ -93,20 +91,29 @@ public class fenetre_consultation {
         menu_param.getStyleClass().add("label-menu");
 
         HBox hboxAjout = new HBox(image_ajout, menu_ajout);
+        //hboxAjout.setAlignment(Pos.CENTER);
         hboxAjout.setPrefHeight(50);
         hboxAjout.setSpacing(20);
 
         HBox hboxConsu = new HBox(image_consu, menu_consu);
+        //hboxConsu.setAlignment(Pos.CENTER);
         hboxConsu.setSpacing(20);
         hboxConsu.setPrefHeight(50);
 
         HBox hbox_accueil = new HBox(image_modif, menu_accueil);
+        //hbox_accueil.setAlignment(Pos.CENTER);
         hbox_accueil.setSpacing(20);
         hbox_accueil.setPrefHeight(50);
 
         HBox hboxParam = new HBox(image_param, menu_param);
+        //hboxParam.setAlignment(Pos.CENTER);
         hboxParam.setSpacing(20);
         hboxParam.setPrefHeight(50);
+
+        hboxAjout.getStyleClass().add("conteneur");
+        hboxConsu.getStyleClass().add("conteneur");
+        hboxParam.getStyleClass().add("conteneur");
+        hbox_accueil.getStyleClass().add("conteneur");
 
         menu_ajout.setVisible(false);
         menu_consu.setVisible(false);
@@ -114,9 +121,10 @@ public class fenetre_consultation {
         menu_param.setVisible(false);
 
         hboxAjout.setOnMouseClicked(event -> {
-            nouvelle_enfant ajouter = new nouvelle_enfant();
-            Stage stage_ajout = new Stage();
-            ajouter.start(stage_ajout);
+            nouvelle_enfant nouvelleEnfant = new nouvelle_enfant();
+            Stage stage_nouv = new Stage();
+            nouvelleEnfant.start(stage_nouv);
+
             stage.close();
         });
 
@@ -124,6 +132,7 @@ public class fenetre_consultation {
             App accueil = new App();
             Stage stage_accueil = new Stage();
             accueil.start(stage_accueil);
+
             stage.close();
         });
 
@@ -132,15 +141,15 @@ public class fenetre_consultation {
         menu_icon.setId("menu_icon");
         menu_icon.setOnMouseClicked(event -> {
             if (i == 0) {
-                bar.setPrefWidth(200);
+                bar.setPrefWidth(170);
                 menu_ajout.setVisible(true);
                 menu_consu.setVisible(true);
                 menu_accueil.setVisible(true);
                 menu_param.setVisible(true);
-                menu_icon.setStyle("-fx-translate-x: -50px;");
+                menu_icon.setStyle("-fx-translate-x: -60px;");
                 i = 1;
             } else if (i == 1) {
-                bar.setPrefWidth(70);
+                bar.setPrefWidth(40);
                 menu_ajout.setVisible(false);
                 menu_consu.setVisible(false);
                 menu_accueil.setVisible(false);
@@ -154,66 +163,119 @@ public class fenetre_consultation {
 
         root.setLeft(bar);
     }
-
+    
     private VBox page_de_consultation() {
         VBox box_consultation = new VBox();
         box_consultation.setSpacing(10);
-        box_consultation.setPadding(new Insets(20));
-
+        box_consultation.setPadding(new Insets(10));
+    
         HBox filterBox = new HBox();
         filterBox.setSpacing(5);
-
+    
         ComboBox<String> filterComboBox = new ComboBox<>();
         filterComboBox.getItems().addAll("Nom Enfant", "Date de naissance", "Lieu de naissance", "Nom des parents");
-        filterComboBox.setPromptText("Filtrer par");
-
+        filterComboBox.setPromptText("Rechercher par");
+        filterBox.setAlignment(Pos.CENTER_RIGHT);
+    
         TextField edit_chercher = new TextField();
         edit_chercher.setPromptText("Entrez votre recherche");
-
+    
         Button chercher = new Button("Rechercher");
-
-        Region espaceVide = new Region();
-        HBox.setHgrow(espaceVide, Priority.ALWAYS);
-
-        filterBox.getChildren().addAll(filterComboBox, espaceVide, edit_chercher, chercher);
-
+    
+        filterBox.getChildren().addAll(filterComboBox, edit_chercher, chercher);
+    
         TableView<Enfant> tableView = new TableView<>();
-
-        TableColumn<Enfant, String> idColumn = new TableColumn<>("ID");
+    
+        TableColumn<Enfant, String> idColumn = new TableColumn<>("Numero");
         idColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
-
+    
         TableColumn<Enfant, String> dateColumn = new TableColumn<>("Date de Naissance");
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDateNaissance()));
+        dateColumn.setPrefWidth(130);
 
         TableColumn<Enfant, String> nomColumn = new TableColumn<>("Nom de l'Enfant");
         nomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNom()));
-
+        nomColumn.setPrefWidth(250);
+    
         TableColumn<Enfant, String> prenomColumn = new TableColumn<>("Prénom");
         prenomColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrenom()));
-
-        TableColumn<Enfant, String> lieuColumn = new TableColumn<>("Lieu de Naissance");
+        prenomColumn.setPrefWidth(100);
+    
+        TableColumn<Enfant, String> lieuColumn = new TableColumn<>("Lieu");
         lieuColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLieuNaissance()));
-
-        TableColumn<Enfant, String> parentColumn = new TableColumn<>("Nom de Parent");
-        parentColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomParent()));
-
+    
         TableColumn<Enfant, String> sexeColumn = new TableColumn<>("Sexe");
         sexeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSexe()));
+    
+        TableColumn<Enfant, String> parentsColumn = new TableColumn<>("Noms des Parents");
+        parentsColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomsParents()));
+        parentsColumn.setPrefWidth(230);
 
-        tableView.getColumns().addAll(idColumn, dateColumn, nomColumn, prenomColumn, lieuColumn, parentColumn, sexeColumn);
+        tableView.getColumns().addAll(idColumn, dateColumn, nomColumn, prenomColumn, lieuColumn, sexeColumn, parentsColumn);
+    
+        ObservableList<Enfant> enfants = FXCollections.observableArrayList(Enfant.getAllEnfants());
 
-        ObservableList<Enfant> enfants = FXCollections.observableArrayList(
-            new Enfant(001, "28 janvier 2003", "Dupont", "Jean", "Paris", "Dupont Père", "M"),
-            new Enfant(002, "15 mars 2005", "Durand", "Marie", "Lyon", "Durand Mère", "F")
-        );
-
+        tableView.setRowFactory(tv -> {
+            TableRow<Enfant> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(!row.isEmpty()){
+                    System.out.println("Yo");
+                    Enfant clickedEnfant = row.getItem();
+                    showPopup(clickedEnfant);
+                }
+            });
+            return row;
+        });
+    
         tableView.setItems(enfants);
-
+        tableView.setPrefHeight(600);
+    
         box_consultation.getChildren().addAll(filterBox, tableView);
-
+    
         return box_consultation;
     }
 
+    private void showPopup(Enfant enfant) {
+        Stage popupStage = new Stage();
+        popupStage.setTitle("Que voulez vous faire?");
+    
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(20));
+        vbox.setSpacing(10);
+        vbox.setPrefWidth(200);
+
+        HBox hbox = new HBox();
+        hbox.setSpacing(20);
+    
+        Label nomLabel = new Label("Nom de l'enfant : " + enfant.getNom());
+        nomLabel.setStyle("-fx-font-size: 16px;");
+    
+        Button button1 = new Button("Supprimer");
+        Button button2 = new Button("Modifier");
+
+        hbox.getChildren().addAll(button1, button2);
+    
+        button1.setOnAction(event -> {
+            popupStage.close();
+        });
+    
+        button2.setOnAction(event -> {
+            fenetre_modification modif = new fenetre_modification(enfant);
+            Stage stage_modif = new Stage();
+            modif.start(stage_modif);
+
+            stage.close();
+
+        });
+    
+        vbox.getChildren().addAll(nomLabel, hbox);
+    
+        Scene scene = new Scene(vbox);
+        popupStage.setScene(scene);
+        popupStage.initOwner(stage); 
+        popupStage.showAndWait();
+    }
+    
     private VBox bar;
     private Image icon_menu, icon_ajout, icon_consu, icon_accueil, icon_param;
     private ImageView image_menu, image_ajout, image_consu, image_modif, image_param;

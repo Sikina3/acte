@@ -11,6 +11,7 @@
     -fx-pref-height: 25px;
     -fx-font-size: 14px;
     -fx-border-color: gray;
+    -fx-border-radius: 2px;
 }
 
 .text-field:focused{

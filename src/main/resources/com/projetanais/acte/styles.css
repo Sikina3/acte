@@ -4,16 +4,13 @@
     -fx-font-family: "Poppins";
 }
 
-#bar-top {
-    -fx-background-color: #ffffff;
-    -fx-spacing: 50;
-    -fx-effect: dropshadow(gaussian, rgba(188, 188, 188, 0.626), 20, 0.3, 0, 0.5);
-    -fx-pref-width: 100%;
+#bar-left {
+    -fx-background-color: #3C6F71;
+    -fx-padding: 0 0 0 0;
 }
 
-#bar-left {
-    -fx-background-color: #C5C6C6;
-    -fx-padding: 0 0 0 30;
+#bar-left > .conteneur {
+    -fx-translate-x: 15px;
 }
 
 .label-menu {
@@ -51,12 +48,12 @@
     -fx-pref-height: 50px;
     -fx-padding: 10px;
     -fx-border-width: 1px;
-    -fx-border-color: gray;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
 }
 
 #box_distric{
     -fx-background-color: #d37575;
-    -fx-border-color: gray;
     -fx-alignment: center;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
@@ -79,8 +76,8 @@
 
 #home {
     -fx-start-margin: -50px;
-    -fx-background-color: #ffffff;
-    -fx-pref-height: 650px;
+    -fx-background-color:  #F2F2F2;
+    -fx-pref-height: 700px;
     -fx-padding: 20px;
 }
 

@@ -38,22 +38,22 @@ public class App extends Application {
     }
 
     private void initialisation_Menu() {
-        icon_menu = new Image(getClass().getResourceAsStream("menuB.png"));
-        icon_ajout = new Image(getClass().getResourceAsStream("creer.png"));
-        icon_consu = new Image(getClass().getResourceAsStream("visualisation-de-donnees.png"));
-        icon_accueil = new Image(getClass().getResourceAsStream("maison.png"));
-        icon_param = new Image(getClass().getResourceAsStream("parametres.png"));
+        icon_menu = new Image(getClass().getResourceAsStream("menumenu.png"));
+        icon_ajout = new Image(getClass().getResourceAsStream("ajouter.png"));
+        icon_consu = new Image(getClass().getResourceAsStream("liste.png"));
+        icon_accueil = new Image(getClass().getResourceAsStream("accueil.png"));
+        icon_param = new Image(getClass().getResourceAsStream("partir.png"));
 
         image_menu = new ImageView(icon_menu);
-        image_menu.setOpacity(0.6);
+        image_menu.setOpacity(0.8);
         image_ajout = new ImageView(icon_ajout);
-        image_ajout.setOpacity(0.4);
+        image_ajout.setOpacity(1);
         image_consu = new ImageView(icon_consu);
-        image_consu.setOpacity(0.4);
+        image_consu.setOpacity(1);
         image_modif = new ImageView(icon_accueil);
-        image_modif.setOpacity(0.4);
+        image_modif.setOpacity(0.8);
         image_param = new ImageView(icon_param);
-        image_param.setOpacity(0.4);
+        image_param.setOpacity(1);
 
         // gauche
         image_ajout.setFitWidth(24);
@@ -88,24 +88,29 @@ public class App extends Application {
         menu_param.getStyleClass().add("label-menu");
 
         HBox hboxAjout = new HBox(image_ajout, menu_ajout);
-        // hboxAjout.setAlignment(Pos.CENTER);
+        //hboxAjout.setAlignment(Pos.CENTER);
         hboxAjout.setPrefHeight(50);
         hboxAjout.setSpacing(20);
 
         HBox hboxConsu = new HBox(image_consu, menu_consu);
-        // hboxConsu.setAlignment(Pos.CENTER);
+        //hboxConsu.setAlignment(Pos.CENTER);
         hboxConsu.setSpacing(20);
         hboxConsu.setPrefHeight(50);
 
         HBox hbox_accueil = new HBox(image_modif, menu_accueil);
-        // hbox_accueil.setAlignment(Pos.CENTER);
+        //hbox_accueil.setAlignment(Pos.CENTER);
         hbox_accueil.setSpacing(20);
         hbox_accueil.setPrefHeight(50);
 
         HBox hboxParam = new HBox(image_param, menu_param);
-        // hboxParam.setAlignment(Pos.CENTER);
+        //hboxParam.setAlignment(Pos.CENTER);
         hboxParam.setSpacing(20);
         hboxParam.setPrefHeight(50);
+
+        hboxAjout.getStyleClass().add("conteneur");
+        hboxConsu.getStyleClass().add("conteneur");
+        hboxParam.getStyleClass().add("conteneur");
+        hbox_accueil.getStyleClass().add("conteneur");
 
         menu_ajout.setVisible(false);
         menu_consu.setVisible(false);
@@ -132,12 +137,12 @@ public class App extends Application {
         menu_icon.setId("menu_icon");
         menu_icon.setOnMouseClicked(event -> {
             if (i == 0) {
-                bar.setPrefWidth(200);
+                bar.setPrefWidth(170);
                 menu_ajout.setVisible(true);
                 menu_consu.setVisible(true);
                 menu_accueil.setVisible(true);
                 menu_param.setVisible(true);
-                menu_icon.setStyle("-fx-translate-x: -50px;");
+                menu_icon.setStyle("-fx-translate-x: -60px;");
                 i = 1;
             } else if (i == 1) {
                 bar.setPrefWidth(40);
@@ -154,10 +159,6 @@ public class App extends Application {
 
         root.setCenter(createHomePage());
         root.setLeft(bar);
-    }
-
-    private String extracted() {
-        return "menuB.png";
     }
 
     private ScrollPane createHomePage() {
