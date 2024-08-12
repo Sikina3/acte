@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="acte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="36c86fbc-56db-4029-8743-9e6a213e3039">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_enfant" class="java.lang.Integer"/>
+	<parameter name="date_naissance_formatee" class="java.lang.String"/>
+	<parameter name="date_en_lettre" class="java.lang.String"/>
+	<parameter name="heure_naissance" class="java.lang.String"/>
+	<parameter name="date_naissance_pere_en_lettre" class="java.lang.String"/>
+	<parameter name="date_naissance_mere_en_lettre" class="java.lang.String"/>
+	<parameter name="date_creation_en_lettre" class="java.lang.String"/>
+	<parameter name="heure_creation" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+    e.nom_enfant, e.prenom_enfant, e.date_naissance, e.lieu_naissance, e.sexe, e.heure_naissance, e.matin_soir,
+    p.nom_pere, p.nom_mere, p.dn_pere, p.dn_mere, p.ln_pere, p.ln_mere, p.prof_pere, p.prof_mere, p.adresse,
+    a.date_creation, a.heure, a.nom_docteur, a.nom_responsable, a.distric, a.commune, a.matin_soir as matinSoir, e.id
+FROM
+    enfant e
+JOIN
+    parents p ON e.id_parents = p.id
+JOIN
+    acte a ON e.id = a.id_enfants
+WHERE
+    e.id = $P{id_enfant}]]>
+	</queryString>
+	<field name="nom_enfant" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prenom_enfant" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_naissance" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lieu_naissance" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sexe" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom_pere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom_mere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dn_pere" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dn_mere" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ln_pere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ln_mere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prof_pere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prof_mere" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="adresse" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_creation" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="heure" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom_docteur" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom_responsable" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="distric" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="commune" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.String"/>
+	<field name="heure_naissance" class="java.lang.String"/>
+	<field name="matin_soir" class="java.lang.String"/>
+	<field name="matinSoir" class="java.lang.String"/>
+	<variable name="prenom_enfant_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{prenom_enfant}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="734" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="54" width="155" height="29" uuid="d2faab84-1302-4918-83bb-324a15297306"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style" size="18"/>
+				</textElement>
+				<text><![CDATA[Ville De]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="84" width="155" height="37" uuid="fa99f9fc-25f9-4061-89ab-5f949c02bbc1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Bookman Old Style" size="20" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{distric}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="137" width="171" height="27" uuid="aff0206e-25c8-4257-b8e4-45b0f070b024"/>
+				<textElement textAlignment="Center" rotation="None" markup="none">
+					<font fontName="Bookman Old Style" size="16"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Commune Urbaine	]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="175" width="171" height="35" uuid="56d19f89-0e36-4811-b770-d68d658c3023"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commune}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="230" width="169" height="30" uuid="3c59ad7b-5a3f-4c30-b8ce-80ea42ee5a0b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="16" isBold="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Etat-Civil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="282" width="28" height="30" uuid="b5b89a13-7c69-4a28-8eb0-f8e701634cf8"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[N.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="79" y="282" width="50" height="30" uuid="caa48d05-976b-40c4-92a5-244b310995ee"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="344" width="169" height="29" uuid="9ea55a4b-8a50-4e17-aced-27c1822711e9"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_naissance_formatee}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="374" width="171" height="32" uuid="1b86da71-ffe8-4440-8d68-6dc513bb8d89"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Fahaterahana]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="424" width="171" height="46" uuid="d773f134-267c-4126-a992-bf5305d3877a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_enfant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="470" width="168" height="51" uuid="3c37f15b-8a41-422a-95b5-9cd322dac8bf"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prenom_enfant}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="538" width="168" height="27" uuid="cc56d0de-1a9c-4cd7-854d-2ab55015f98c"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[*****]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="54" width="286" height="19" uuid="28c90fe1-e4b0-4f6f-931b-ce34bd3a028c"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPOBLIKAN'I MADAGASIKARA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="73" width="286" height="20" uuid="67705668-a0d7-4de2-8fea-5b2f8af78ab3"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fitiavana-Tanindrazana-Fandrosoana]]></text>
+			</staticText>
+			<line>
+				<reportElement x="309" y="103" width="100" height="1" uuid="44808aeb-3989-4ad6-b2a5-14871fc7ff95"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="172" y="121" width="383" height="26" uuid="4a5c6fcd-8035-4cd9-be81-2644ed17b7b1"/>
+				<textElement textAlignment="Center">
+					<font fontName="SimSun" size="18"/>
+				</textElement>
+				<text><![CDATA[Kopian'ny Sora-Piankohonana]]></text>
+			</staticText>
+			<line>
+				<reportElement x="275" y="164" width="175" height="1" uuid="1ee0b419-6972-4830-9402-51a6fea5ecb4"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<ellipse>
+				<reportElement x="354" y="159" width="10" height="11" uuid="923ca867-e273-48dd-9267-1fba1245b355"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="373" y="162" width="6" height="6" uuid="f7cd94ef-36af-4e10-8805-e10618bac554"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="393" y="162" width="6" height="6" uuid="6bed28f6-8d8c-461c-bcaa-4e44df9b9a99"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="338" y="162" width="6" height="6" uuid="c69d9405-b14a-49c9-b601-9e141a433000"/>
+			</ellipse>
+			<ellipse>
+				<reportElement x="319" y="162" width="6" height="6" uuid="d7db47a6-b44b-4359-bcf3-0091ca04dc4e"/>
+			</ellipse>
+			<staticText>
+				<reportElement mode="Transparent" x="204" y="210" width="60" height="20" uuid="38cbedd3-7213-4ae8-aca4-70f2dfb0a4b8"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[Tamin'ny ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="264" y="210" width="291" height="20" uuid="fbb3ef66-b4d3-4147-b3ae-145601a792cd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_en_lettre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="162" y="231" width="62" height="20" uuid="8d51af01-88b6-42b3-a0f6-13e7ecda876a"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[, tamin'ny]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="225" y="231" width="86" height="20" uuid="a5b35335-0e70-48fd-9b47-415837bb3ee3"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{heure_naissance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="231" width="60" height="20" uuid="0e376082-bf0f-45a2-b79c-0da5bcf61415"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matin_soir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="232" width="87" height="20" uuid="5ac8c55a-5d1c-4e3c-8ae6-e8db26bc517a"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[no teraka teto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="458" y="231" width="85" height="20" uuid="52415fad-5b0e-40a7-ac22-97a42e9d9ac7"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commune}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="543" y="231" width="11" height="20" uuid="abe77a1c-0147-4230-aecd-6be8a36c429d"/>
+				<textElement>
+					<font fontName="Bookman Old Style"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="252" width="120" height="20" uuid="b7b128c9-15fe-4cc8-9e4b-42007a79d3b4"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_enfant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="252" width="100" height="20" uuid="dd60c69e-48f3-4ca8-b71b-54881c136c93"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prenom_enfant}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="393" y="251" width="10" height="20" uuid="2af00f16-04ea-40b8-a0e4-bfc6ef2ba09c"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="403" y="252" width="47" height="20" uuid="4c1bbf96-ae05-431c-bf77-80ce85e4aa8d"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="450" y="251" width="10" height="20" uuid="09477850-f991-43e7-a75e-39195f0f01b5"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="252" width="95" height="20" uuid="702a5d19-cd91-4abe-9f6c-d8d5533d8aee"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[zanak'i]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="272" width="204" height="20" uuid="2c587d95-2b71-41eb-a2ff-29fc16db311f"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_pere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="272" width="10" height="20" uuid="6d69f991-637a-4376-b0d5-3e063af75dee"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="390" y="272" width="70" height="20" uuid="b0a6081a-66b3-4f87-b032-00b4276d8047"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prof_pere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="460" y="271" width="10" height="20" uuid="f2faac89-a714-401a-bb90-d413c0bfd2f4"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="272" width="65" height="20" uuid="d09a4b63-bc11-4ec4-9682-06dcf8049f92"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[teraka tao]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="292" width="92" height="20" uuid="9b0b857a-c906-427e-8966-58cfab8c9a3a"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ln_pere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="265" y="292" width="60" height="20" uuid="9fd2d9f5-07e0-45e1-9c8d-2c9c918746ff"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[tamin'ny ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="325" y="292" width="146" height="20" uuid="f300f81c-6a85-4661-b67f-79e0c38645e1"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_naissance_pere_en_lettre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="468" y="293" width="31" height="20" uuid="e44bbf2e-9b70-4542-b4d9-adef2fbb94ff"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[sy]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="313" width="189" height="20" uuid="aaee2e0b-76bc-4f7e-8738-84fa8e0d5196"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_mere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="312" width="10" height="20" uuid="240fc959-1efd-4441-b78c-4a13578262fb"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="373" y="312" width="100" height="20" uuid="366fdf21-a6cc-45cb-9de6-3022286eb576"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prof_mere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="473" y="312" width="10" height="20" uuid="fdda0a8d-f1ac-4916-93fb-32b5689c7c71"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="312" width="65" height="20" uuid="978d78fc-91b5-463c-b7a1-44a1dc80b085"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[teraka tao]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="333" width="100" height="20" uuid="927f34c9-da41-4d9f-bf48-b438994fd0e8"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ln_mere}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="273" y="332" width="10" height="20" uuid="5b531325-ec3f-44a2-a0bb-29966872cdc5"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="283" y="333" width="100" height="20" uuid="e43ee812-7fe0-4dab-a673-a7906cb5ddeb"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_naissance_mere_en_lettre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="381" y="333" width="65" height="20" uuid="42b7350a-aaed-44d3-b2f4-1be3123989e7"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[monina ao]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="443" y="332" width="110" height="20" uuid="c6a7bf28-baf2-4b03-a6b5-75e17d6d587b"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adresse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="175" y="354" width="100" height="20" uuid="a6dceab7-1a46-44a8-85a0-8c063340b86b"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{distric}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="204" y="420" width="134" height="20" uuid="8ed45808-4fa4-41f1-8573-e1ab2a293b1c"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[nosoratana androany]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="338" y="420" width="215" height="20" uuid="69b107c3-c97b-4fd6-b3c2-59d21bbe23cb"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date_creation_en_lettre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="175" y="440" width="60" height="20" uuid="c7ba4535-4b9b-4ed9-8ffc-e2d4f66d08b6"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<text><![CDATA[tamin'ny ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="235" y="440" width="155" height="20" uuid="46bfc2ff-9893-49eb-8764-791b106a8b11"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{heure_creation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="440" width="56" height="20" uuid="d2580b51-baea-4957-887b-2a9d8043deb6"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matinSoir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="453" y="440" width="100" height="20" uuid="3637aec6-fcdc-4592-b7f4-0bd3cce48cba"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[, araky ny ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="460" width="391" height="20" uuid="d7fac35c-ac3d-439a-95a8-fd500fc53b01"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[fanambarana nataon'ny rain-jaza, ka miara manao sonia aminay,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="173" y="480" width="136" height="20" uuid="2da7dd21-45ca-48df-96e7-6f253213b3a3"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_responsable}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="309" y="480" width="244" height="20" uuid="b5fa217b-196a-4688-bd84-8ccc3deaa910"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[nanao ny kopia sy ny mpampiteraka ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="501" width="150" height="20" uuid="fa86cc02-e329-490e-baa4-e560a8e0ac58"/>
+				<textElement>
+					<font fontName="Bookman Old Style" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_docteur}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="319" y="587" width="100" height="20" uuid="f61fb709-f971-49cc-9048-06a7a96a1792"/>
+				<text><![CDATA[SONIA MANARAKA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="185" y="647" width="351" height="1" uuid="2c8581c9-d7c4-4a7b-8b2c-8c8095a79850"/>
+			</line>
+			<line>
+				<reportElement x="185" y="651" width="351" height="1" uuid="a9ee88e2-402f-46fd-849a-6c6be5391a40"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

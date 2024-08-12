@@ -18,10 +18,22 @@
     -fx-border-color: rgb(198, 198, 198);
 }
 
-.button{
-    -fx-pref-width: 200;
-    -fx-pref-height: 30px;
+#enregistrer{
+    -fx-pref-width: 380px;
+    -fx-pref-height: 20px;
+    -fx-translate-y: 80px;
+    -fx-padding: 5px 10px 5px 10px;
     -fx-font-size: 18px;
-    -fx-background-color: #703048;
+    -fx-background-color: rgb(3, 114, 170);
     -fx-text-fill: #F0E8DA;
 }
+
+.combo-box{
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-font-size: 14px;
+}
+
+.combo-box:hover{
+    -fx-background-color: rgb(178, 217, 239);
+}
+

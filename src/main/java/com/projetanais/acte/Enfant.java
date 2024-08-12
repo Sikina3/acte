@@ -145,6 +145,40 @@ public class Enfant {
         }
     }
 
+    public void modifier(int id) {
+        String updateSQL = "UPDATE enfant SET id_parents = ?, nom_enfant = ?, prenom_enfant = ?, date_naissance = ?, lieu_naissance = ?, heure_naissance = ?, matin_soir = ?, sexe = ? WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(updateSQL)) {
+    
+            statement.setInt(1, idParents);
+            statement.setString(2, nom);
+            statement.setString(3, prenom);
+            
+            ConversionMois conv = new ConversionMois();
+            Date sqlDateN = Date.valueOf(conv.ConversionMois(dateNaissance));
+            Time sqlHeureN = convertirHeure(heureNaissance);
+    
+            statement.setDate(4, sqlDateN);
+            statement.setString(5, lieuNaissance);
+            statement.setTime(6, sqlHeureN);
+            statement.setString(7, matinSoir);
+            statement.setString(8, sexe);
+            statement.setInt(9, id);
+            System.out.println(id);
+    
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Mise à jour de l'enfant échouée, aucune ligne affectée.");
+            } else {
+                System.out.println("tody eto avao koa (am enfant)");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour de l'enfant : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+
     public static List<Enfant> getAllEnfants() {
         List<Enfant> enfants = new ArrayList<>();
         String query = "SELECT e.id, e.id_parents, e.nom_enfant, e.prenom_enfant, e.date_naissance, e.lieu_naissance, e.heure_naissance, e.matin_soir, e.sexe, CONCAT(p.nom_pere, ' et ', p.nom_mere) AS noms_parents "
@@ -192,7 +226,56 @@ public class Enfant {
         if (enfantSelectionne != null) {
             return enfantSelectionne.getId();
         } else {
-            return -1; // ou une autre valeur par défaut pour indiquer qu'aucun enfant n'a été sélectionné
+            return -1; 
         }
     }
+
+    public static int getNombreTotalEnfants() {
+        int nombreTotalEnfants = 0;
+        String query = "SELECT COUNT(*) AS total FROM enfant";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                nombreTotalEnfants = resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombreTotalEnfants;
+    }
+
+    public static int getNombreDeFille(){
+        int nombreDeFille = 0;
+        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'feminin'";
+
+        try (Connection connection = DatabaseConnection.getConnect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    nombreDeFille = resultSet.getInt("total");
+                }
+        } catch(SQLException e){
+                e.printStackTrace();
+        }
+        return nombreDeFille;
+    }
+
+    public static int getNombreDeGarcon(){
+        int nombreDeGarcon = 0;
+        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'masculin'";
+
+        try (Connection connection = DatabaseConnection.getConnect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    nombreDeGarcon = resultSet.getInt("total");
+                }
+        } catch(SQLException e){
+                e.printStackTrace();
+        }
+        return nombreDeGarcon;
+    }
+
 }

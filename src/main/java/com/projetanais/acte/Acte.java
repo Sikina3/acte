@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -96,6 +95,35 @@ public class Acte {
         }
     }
 
+    public void modifier(int id) {
+        String updateSQL = "UPDATE acte SET id_enfants = ?, date_creation = ?, heure = ?, matin_soir = ?, nom_docteur = ?, nom_responsable = ?, distric = ?, commune = ? WHERE id_enfants = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(updateSQL)) {
+
+            ConversionMois conv = new ConversionMois();
+            Date sqlDate = Date.valueOf(conv.ConversionMois(dateCreation));
+            Time sqlHeure = convertirHeure(heure);
+
+            statement.setInt(1, id_enfants);
+            statement.setDate(2, sqlDate);
+            statement.setTime(3, sqlHeure);
+            statement.setString(4, matinSoir);
+            statement.setString(5, nomDocteur);
+            statement.setString(6, nomResponsable);
+            statement.setString(7, distric);
+            statement.setString(8, commune);
+            statement.setInt(9, id);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Mise à jour de l'acte échouée, aucune ligne affectée.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour de l'acte : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private Time convertirHeure(String heure) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h'mm");
@@ -105,5 +133,30 @@ public class Acte {
             System.out.println("Erreur de format d'heure : " + e.getMessage());
             return null;
         }
+    }
+
+    public static Acte chargerParId(int id_enfant) {
+        String query = "SELECT * FROM acte WHERE id_enfants = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id_enfant);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Acte(
+                        resultSet.getInt("id_enfants"),
+                        resultSet.getString("date_creation"),
+                        resultSet.getString("heure"),
+                        resultSet.getString("matin_soir"),
+                        resultSet.getString("nom_docteur"),
+                        resultSet.getString("nom_responsable"),
+                        resultSet.getString("distric"),
+                        resultSet.getString("commune")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

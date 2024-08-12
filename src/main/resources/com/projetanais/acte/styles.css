@@ -5,31 +5,36 @@
 }
 
 #bar-left {
-    -fx-background-color: #3C6F71;
-    -fx-padding: 0 0 0 0;
-}
-
-#bar-left > .conteneur {
-    -fx-translate-x: 15px;
+    -fx-background-color: rgb(0, 102, 150);
 }
 
 .label-menu {
     -fx-font-size: 16px;
     -fx-font-family: "Poppins";
-    -fx-text-fill: #585858; 
+    -fx-text-fill: #EEE6D8; 
 }
 
 #menu_icon {
-    -fx-translate-y: -90px;
+    -fx-translate-y: -130px;
     -fx-padding: 10px;
     -fx-background-color: transparent;
 }
 
 #menu_icon:hover {
-    -fx-background-color: lightgray;
+    -fx-background-color: rgb(4, 115, 175);
     -fx-border-color: transparent;
     -fx-border-width: 0; 
     -fx-cursor: hand; 
+}
+
+.icon_nav{
+    -fx-padding: 10 -15 0 15;
+    -fx-translate-y: -60;
+}
+
+.icon_nav:hover {
+    -fx-cursor: hand;
+    -fx-background-color: rgb(4, 115, 175);
 }
 
 #cadre2 {
@@ -48,12 +53,13 @@
     -fx-pref-height: 50px;
     -fx-padding: 10px;
     -fx-border-width: 1px;
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #FFFFFF;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #f0f0f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
 }
 
 #box_distric{
-    -fx-background-color: #d37575;
     -fx-alignment: center;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
@@ -62,10 +68,11 @@
 #box_distric > .label{
     -fx-font-family: "Poppins";
     -fx-font-size: 24px;
+    -fx-text-fill: #333533;
 }
 
 #box_nb{
-    -fx-background-color: #FFFFFF;
+    
     -fx-padding: 30;
 }
 
@@ -76,8 +83,44 @@
 
 #home {
     -fx-start-margin: -50px;
-    -fx-background-color:  #F2F2F2;
+    -fx-background-color:  #e5e7e6;
     -fx-pref-height: 700px;
     -fx-padding: 20px;
 }
 
+#sectionActualite {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 20px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-alignment: center-left;
+}
+
+.section-titre {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 18px;
+    -fx-text-fill: #333;
+    -fx-padding-bottom: 10px;
+}
+
+.default-color0.chart-pie {
+    -fx-pie-color: rgb(111, 185, 222);
+}
+
+.default-color1.chart-pie {
+    -fx-pie-color: rgb(252, 197, 130);
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #808080;
+    -fx-fill: #808080;
+}
+ 
+.chart-pie-label {
+    -fx-fill: #4d4d4d;
+    -fx-font-size: 1em;
+} 
+.chart-legend {
+   -fx-pref-width: 200px;
+   -fx-spacing: 20px;
+}

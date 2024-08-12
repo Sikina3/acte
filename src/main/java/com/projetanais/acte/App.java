@@ -1,10 +1,16 @@
 package com.projetanais.acte;
 
+import java.util.Optional;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -38,6 +44,7 @@ public class App extends Application {
     }
 
     private void initialisation_Menu() {
+        //creation d'icon
         icon_menu = new Image(getClass().getResourceAsStream("menumenu.png"));
         icon_ajout = new Image(getClass().getResourceAsStream("ajouter.png"));
         icon_consu = new Image(getClass().getResourceAsStream("liste.png"));
@@ -45,15 +52,15 @@ public class App extends Application {
         icon_param = new Image(getClass().getResourceAsStream("partir.png"));
 
         image_menu = new ImageView(icon_menu);
-        image_menu.setOpacity(0.8);
+        image_menu.setOpacity(0.7);
         image_ajout = new ImageView(icon_ajout);
-        image_ajout.setOpacity(1);
+        image_ajout.setOpacity(0.7);
         image_consu = new ImageView(icon_consu);
-        image_consu.setOpacity(1);
+        image_consu.setOpacity(0.7);
         image_modif = new ImageView(icon_accueil);
-        image_modif.setOpacity(0.8);
+        image_modif.setOpacity(1);
         image_param = new ImageView(icon_param);
-        image_param.setOpacity(1);
+        image_param.setOpacity(0.7);
 
         // gauche
         image_ajout.setFitWidth(24);
@@ -74,12 +81,12 @@ public class App extends Application {
         bar.setId("bar-left");
         bar.setPrefWidth(20);
         bar.setAlignment(Pos.CENTER);
-        bar.setSpacing(60);
+        bar.setSpacing(40);
 
         menu_ajout = new Label("Ajouter");
         menu_consu = new Label("Consulter");
         menu_accueil = new Label("Accueil");
-        menu_param = new Label("Paramètres");
+        menu_param = new Label("Quitter");
 
         // classe
         menu_ajout.getStyleClass().add("label-menu");
@@ -88,29 +95,24 @@ public class App extends Application {
         menu_param.getStyleClass().add("label-menu");
 
         HBox hboxAjout = new HBox(image_ajout, menu_ajout);
-        //hboxAjout.setAlignment(Pos.CENTER);
+        // hboxAjout.setAlignment(Pos.CENTER);
         hboxAjout.setPrefHeight(50);
         hboxAjout.setSpacing(20);
 
         HBox hboxConsu = new HBox(image_consu, menu_consu);
-        //hboxConsu.setAlignment(Pos.CENTER);
+        // hboxConsu.setAlignment(Pos.CENTER);
         hboxConsu.setSpacing(20);
         hboxConsu.setPrefHeight(50);
 
         HBox hbox_accueil = new HBox(image_modif, menu_accueil);
-        //hbox_accueil.setAlignment(Pos.CENTER);
+        // hbox_accueil.setAlignment(Pos.CENTER);
         hbox_accueil.setSpacing(20);
         hbox_accueil.setPrefHeight(50);
 
         HBox hboxParam = new HBox(image_param, menu_param);
-        //hboxParam.setAlignment(Pos.CENTER);
+        // hboxParam.setAlignment(Pos.CENTER);
         hboxParam.setSpacing(20);
         hboxParam.setPrefHeight(50);
-
-        hboxAjout.getStyleClass().add("conteneur");
-        hboxConsu.getStyleClass().add("conteneur");
-        hboxParam.getStyleClass().add("conteneur");
-        hbox_accueil.getStyleClass().add("conteneur");
 
         menu_ajout.setVisible(false);
         menu_consu.setVisible(false);
@@ -131,6 +133,23 @@ public class App extends Application {
             consultation.start(stage_consu);
             stage.close();
         });
+
+        hboxParam.setOnMouseClicked(event -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de sortie");
+            alert.setHeaderText("Voulez-vous vraiment quitter le logiciel ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Fermez l'application
+                stage.close();
+            }
+        });
+
+        hboxAjout.getStyleClass().add("icon_nav");
+        hboxConsu.getStyleClass().add("icon_nav");
+        hboxParam.getStyleClass().add("icon_nav");
+        hbox_accueil.getStyleClass().add("icon_nav");
 
         menu_icon = new Label();
         menu_icon.setGraphic(image_menu);
@@ -167,11 +186,13 @@ public class App extends Application {
         homePage.setId("home");
         homePage.setSpacing(20);
 
+        // Cadre supérieur
         HBox box_cadre = new HBox();
         box_cadre.setId("cadreBox");
         box_cadre.setSpacing(60);
         box_cadre.setPrefSize(10, 100);
 
+        // Informations sur le district et le nombre d'enfants
         box_distric = new VBox();
         box_distric.setPrefSize(300, 50);
         box_distric.setId("box_distric");
@@ -179,29 +200,51 @@ public class App extends Application {
         box_nombre_enfant.setId("box_nb");
         box_nombre_enfant.setPrefSize(300, 50);
         box_cadre.getChildren().addAll(box_distric, box_nombre_enfant);
-        distric = new Label("Toamasina");
+        distric = new Label("Naissance");
         nb_enfant = new Label("0");
-        box_distric.getChildren().addAll(new Label("Distric de "), distric);
-        box_nombre_enfant.getChildren().addAll(nb_enfant, new Label("Enfants enregistrer"));
+        box_distric.getChildren().addAll(new Label("Acte de "), distric);
+        box_nombre_enfant.getChildren().addAll(nb_enfant, new Label("Enfants enregistrés"));
         box_nombre_enfant.setSpacing(20);
 
+        // Mettre à jour le nombre d'enfants
+        NombreEnfant();
+
+        // Diagramme circulaire
         VBox diagramme = new VBox();
+        diagramme.setId("teste");
         PieChart pie = new PieChart();
-        pie.setTitle("Diagrammes des enfants enregistrer");
+        pie.setTitle("Diagrammes des enfants enregistrés");
         pie.setTitleSide(Side.BOTTOM);
-        PieChart.Data part1 = new PieChart.Data("Garcons", 60);
-        PieChart.Data part2 = new PieChart.Data("Filles", 40);
+        PieChart.Data part1 = new PieChart.Data("Garçons", Enfant.getNombreDeGarcon());
+        PieChart.Data part2 = new PieChart.Data("Filles", Enfant.getNombreDeFille());
+        System.out.println(Enfant.getNombreDeFille());
         pie.getData().add(part1);
         pie.getData().add(part2);
-        pie.setLabelLineLength(20);
+        pie.setLabelLineLength(10);
         pie.setLegendSide(Side.LEFT);
+
         diagramme.getChildren().add(pie);
 
-        homePage.getChildren().addAll(box_cadre, diagramme);
+        // Section d'actualités
+        VBox sectionActualite = new VBox();
+        sectionActualite.setId("sectionActualite");
+        Label newsLabel = new Label("Actualités récentes");
+        newsLabel.getStyleClass().add("section-titre");
+        Label newsContent = new Label("Aucune actualité pour le moment.");
+        sectionActualite.getChildren().addAll(newsLabel, newsContent);
+
+        homePage.getChildren().addAll(box_cadre, diagramme, sectionActualite);
 
         ScrollPane scrollPane = new ScrollPane(homePage);
         scrollPane.setFitToWidth(true);
         return scrollPane;
+    }
+
+    private void NombreEnfant() {
+        new Thread(() -> {
+            int nombreTotalEnfants = Enfant.getNombreTotalEnfants();
+            Platform.runLater(() -> nb_enfant.setText(String.valueOf(nombreTotalEnfants)));
+        }).start();
     }
 
     public static void main(String[] args) {

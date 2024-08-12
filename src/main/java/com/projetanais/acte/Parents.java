@@ -77,7 +77,6 @@ public class Parents {
             ConversionMois conv = new ConversionMois();
 
             Date sqlPere = Date.valueOf(conv.ConversionMois(dnPere));
-            System.err.println(sqlPere);
             Date sqlMere = Date.valueOf(conv.ConversionMois(dnMere));
 
             statement.setDate(3, sqlPere);
@@ -100,5 +99,64 @@ public class Parents {
             System.out.println("Erreur lors de l'enregistrement des parents : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public void modifier(int id) {
+        String updateSQL = "UPDATE parents SET nom_pere = ?, nom_mere = ?, dn_pere = ?, dn_mere = ?, ln_pere = ?, ln_mere = ?, prof_pere = ?, prof_mere = ?, adresse = ? WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(updateSQL)) {
+
+            ConversionMois conv = new ConversionMois();
+            Date sqlDnPere = Date.valueOf(conv.ConversionMois(dnPere));
+            Date sqlDnMere = Date.valueOf(conv.ConversionMois(dnMere));
+
+            statement.setString(1, nomPere);
+            statement.setString(2, nomMere);
+            statement.setDate(3, sqlDnPere);
+            statement.setDate(4, sqlDnMere);
+            statement.setString(5, lnPere);
+            statement.setString(6, lnMere);
+            statement.setString(7, profPere);
+            statement.setString(8, profMere);
+            statement.setString(9, adresse);
+            statement.setInt(10, id);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Mise à jour des parents échouée, aucune ligne affectée.");
+            } else {
+                System.out.println("id parents: " + id);
+                System.out.println("tsy misy erreur (nen'i parent)");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour des parents : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static Parents chargerParId(int id) {
+        String query = "SELECT * FROM parents WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Parents(
+                        resultSet.getString("nom_pere"),
+                        resultSet.getString("nom_mere"),
+                        resultSet.getString("dn_pere"),
+                        resultSet.getString("dn_mere"),
+                        resultSet.getString("ln_pere"),
+                        resultSet.getString("ln_mere"),
+                        resultSet.getString("prof_pere"),
+                        resultSet.getString("prof_mere"),
+                        resultSet.getString("adresse")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
