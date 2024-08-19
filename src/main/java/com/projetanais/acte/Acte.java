@@ -95,6 +95,25 @@ public class Acte {
         }
     }
 
+    public static Acte supprimer(int id){
+        String deleteSQL = "DELETE FROM acte WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(deleteSQL)) {
+    
+            statement.setInt(1, id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Suppression de l'enfant échouée, aucune ligne affectée.");
+            } else {
+                System.out.println("Enfant supprimé avec succès.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la suppression de l'acte : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void modifier(int id) {
         String updateSQL = "UPDATE acte SET id_enfants = ?, date_creation = ?, heure = ?, matin_soir = ?, nom_docteur = ?, nom_responsable = ?, distric = ?, commune = ? WHERE id_enfants = ?";
         try (Connection connection = DatabaseConnection.getConnect();

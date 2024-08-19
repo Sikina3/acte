@@ -145,6 +145,25 @@ public class Enfant {
         }
     }
 
+    public static void supprimer(int id) {
+        String deleteSQL = "DELETE FROM enfant WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(deleteSQL)) {
+    
+            statement.setInt(1, id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Suppression de l'enfant échouée, aucune ligne affectée.");
+            } else {
+                System.out.println("Enfant supprimé avec succès.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la suppression de l'enfant : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+
     public void modifier(int id) {
         String updateSQL = "UPDATE enfant SET id_parents = ?, nom_enfant = ?, prenom_enfant = ?, date_naissance = ?, lieu_naissance = ?, heure_naissance = ?, matin_soir = ?, sexe = ? WHERE id = ?";
         try (Connection connection = DatabaseConnection.getConnect();
@@ -248,7 +267,7 @@ public class Enfant {
 
     public static int getNombreDeFille(){
         int nombreDeFille = 0;
-        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'feminin'";
+        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'zazavavy'";
 
         try (Connection connection = DatabaseConnection.getConnect();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -264,7 +283,7 @@ public class Enfant {
 
     public static int getNombreDeGarcon(){
         int nombreDeGarcon = 0;
-        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'masculin'";
+        String query = "SELECT COUNT(*) AS total from enfant where sexe = 'zazalahy'";
 
         try (Connection connection = DatabaseConnection.getConnect();
             PreparedStatement statement = connection.prepareStatement(query);

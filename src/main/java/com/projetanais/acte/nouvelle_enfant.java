@@ -200,7 +200,7 @@ public class nouvelle_enfant {
         initialisation_heure();
 
         ComboBox<String> sexeComboBox = new ComboBox<>();
-        sexeComboBox.getItems().addAll("Masculin", "Féminin");
+        sexeComboBox.getItems().addAll("zazalahy", "zazavavy");
         sexeComboBox.setPrefWidth(300);
 
         HBox dateNaissanceEnfant = new HBox(10); // Espacement de 10 entre les ComboBox
@@ -325,6 +325,11 @@ public class nouvelle_enfant {
                 acte.sauvegarder();
         
                 System.out.println("Les informations ont été enregistrées avec succès !");
+                
+                fenetre_consultation consultation = new fenetre_consultation();
+                Stage stage_consu = new Stage();
+                consultation.start(stage_consu);
+                stage.close();
             }
         });
          
@@ -376,7 +381,7 @@ public class nouvelle_enfant {
 
     private void initialisation_heure(){
         ObservableList<String> heure = FXCollections.observableArrayList();
-        for(int i = 0; i <= 23; i++){
+        for(int i = 0; i <= 12; i++){
             heure.add(String.format("%02d", i));
         }
         heureNais = new ComboBox<>(heure);
@@ -473,13 +478,13 @@ public class nouvelle_enfant {
         textField17 = new TextField();
         textField17.setPromptText("Ex: 16h 30");
         textField18 = new TextField();
-        textField18.setPromptText("matin ou soir");
+        textField18.setPromptText("maraina/ariva");
         textField19 = new TextField();
         textField19.setPromptText("disc ");
         textField20 = new TextField();
         textField20.setPromptText("com ");
         textField21 = new TextField();
-        textField21.setPromptText("matin ou soir");
+        textField21.setPromptText("maraina/ariva");
         textField22 = new TextField();
         textField22.setPromptText("resp ");
     }

@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -251,10 +252,53 @@ public class fenetre_consultation {
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty()) {
                     Enfant clickedEnfant = row.getItem();
-                    try {
-                        showPopup(clickedEnfant);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    if (event.getButton() == MouseButton.PRIMARY) { // Clic gauche
+                        try {
+                            showPopup(clickedEnfant);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (event.getButton() == MouseButton.SECONDARY) { // Clic droit
+                        // Affiche un popup de confirmation pour la suppression
+                        Alert alert = new Alert(AlertType.CONFIRMATION);
+                        alert.setTitle("Confirmation de suppression");
+                        alert.setHeaderText("Supprimer cet enfant ?");
+                        alert.setContentText("Êtes-vous sûr de vouloir supprimer cet enfant ?");
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.isPresent() && result.get() == ButtonType.OK) {
+                            try {
+                                // Supprimer d'abord les actes associés
+                                Acte.supprimer(clickedEnfant.getId());
+
+                                // Avant la suppression des parents
+                                System.out.println("Vérification des enfants restants pour les parents avec ID : "
+                                        + clickedEnfant.getIdParents());
+                                boolean hasOtherChildren = Parents.hasOtherChildren(clickedEnfant.getIdParents());
+                                System.out.println("Les parents ont-ils d'autres enfants ? " + hasOtherChildren);
+
+                                if (!hasOtherChildren) {
+                                    System.out.println(
+                                            "Suppression des parents avec ID : " + clickedEnfant.getIdParents());
+                                    Parents.supprimer(clickedEnfant.getIdParents());
+                                }
+
+                                if (!Parents.hasOtherChildren(clickedEnfant.getIdParents())) {
+                                    Parents.supprimer(clickedEnfant.getIdParents());
+                                }
+
+                                // Ensuite, supprimer l'enfant
+                                Enfant.supprimer(clickedEnfant.getId());
+
+                                // Met à jour la tableView
+                                enfants.remove(clickedEnfant);
+
+                                System.out.println("Enfant, acte et éventuellement parents supprimés avec succès.");
+                            } catch (Exception e) {
+                                System.out.println("Erreur lors de la suppression : " + e.getMessage());
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             });
@@ -298,37 +342,39 @@ public class fenetre_consultation {
     private void showPopup(Enfant enfant) throws SQLException {
         Parents parents = Parents.chargerParId(enfant.getId());
         Acte acte = Acte.chargerParId(enfant.getId());
-    
+
         // Création du popup de confirmation
         Stage confirmationStage = new Stage();
         confirmationStage.setTitle("Choix");
         confirmationStage.setWidth(300);
         confirmationStage.setHeight(150);
-    
+
         VBox mainLayout = new VBox();
         mainLayout.setPadding(new Insets(20));
         mainLayout.setSpacing(10);
         mainLayout.setAlignment(Pos.CENTER);
-    
+
         Label confirmationLabel = new Label("Que souhaitez-vous faire ?");
-    
+
         // HBox pour aligner les boutons côte à côte
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10); // Espacement entre les boutons
         buttonBox.setAlignment(Pos.CENTER);
-    
+
         Button modifierBtn = new Button("Modifier");
         Button visualiserBtn = new Button("Visualiser l'état");
-    
+        modifierBtn.setId("btn_modif");
+        visualiserBtn.setId("btn_visual");
+
         modifierBtn.setOnAction(event -> {
             fenetre_modification modif = new fenetre_modification(enfant);
             System.out.println("id enfant: " + enfant.getId());
             Stage stage_modif = new Stage();
             modif.start(stage_modif);
             confirmationStage.close();
-            stage.close(); 
+            stage.close();
         });
-    
+
         visualiserBtn.setOnAction(event -> {
             try {
                 showReport(enfant, parents, acte);
@@ -339,42 +385,43 @@ public class fenetre_consultation {
             }
             confirmationStage.close();
         });
-    
+
         buttonBox.getChildren().addAll(modifierBtn, visualiserBtn);
-    
+
         mainLayout.getChildren().addAll(confirmationLabel, buttonBox);
-    
+
         Scene scene = new Scene(mainLayout);
         confirmationStage.setScene(scene);
         confirmationStage.initOwner(stage);
         confirmationStage.showAndWait();
+        
     }
 
     private void showReport(Enfant enfant, Parents parents, Acte acte) throws JRException, SQLException {
         String reportPath = "lib/acte.jasper";
-        
+
         ConversionMois conversionMois = new ConversionMois();
         ChiffreEnLettre chiLettre = new ChiffreEnLettre();
-    
+
         Date sqlDateNaissance = Date.valueOf(enfant.getDateNaissance());
         String dateFormatee = conversionMois.formatDate(sqlDateNaissance);
         String datelettre = conversionMois.formatDate_enLettre(sqlDateNaissance);
-    
+
         String heureNaiString = enfant.getHeureNaissance();
         String heureNais = chiLettre.ConvertHeure(heureNaiString);
-        
+
         Date sqlDateNaissancePere = Date.valueOf(parents.getDnPere());
         String dateNaissancePereEnLettre = conversionMois.formatDate_enLettre(sqlDateNaissancePere);
-    
+
         Date sqlDateNaissanceMere = Date.valueOf(parents.getDnMere());
         String dateNaissanceMereEnLettre = conversionMois.formatDate_enLettre(sqlDateNaissanceMere);
-    
+
         Date sqlDateCreation = Date.valueOf(acte.getDateCreation());
         String dateCreationEnLettre = conversionMois.formatDate_enLettre(sqlDateCreation);
-        
+
         String heureActeString = acte.getHeure();
         String heureActeEnLettre = chiLettre.ConvertHeure(heureActeString);
-    
+
         // Préparation des paramètres pour JasperReport
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("id_enfant", enfant.getId());
@@ -385,20 +432,17 @@ public class fenetre_consultation {
         parameters.put("date_naissance_mere_en_lettre", dateNaissanceMereEnLettre);
         parameters.put("date_creation_en_lettre", dateCreationEnLettre);
         parameters.put("heure_creation", heureActeEnLettre);
-    
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parameters, DatabaseConnection.getConnect());
-    
+
         // Afficher le rapport
         JasperViewer viewer = new JasperViewer(jasperPrint, false);
         viewer.setZoomRatio(0.5f);
-        viewer.setSize(800, 800); 
+        viewer.setSize(800, 800);
         viewer.toFront();
         stage.setIconified(true);
         viewer.setVisible(true);
     }
-    
-    
-    
 
     private VBox bar;
     private Image icon_menu, icon_ajout, icon_consu, icon_accueil, icon_param;

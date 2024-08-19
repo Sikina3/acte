@@ -31,20 +31,19 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        this.stage = stage;
-        scene = new Scene(root, 1000, 700);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            this.stage = stage;
+            scene = new Scene(root, 1000, 700);
+            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        stage.setScene(scene);
-        stage.setTitle("Acte de naissance");
-        stage.setResizable(false);
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("teste.jpg")));
+            stage.setScene(scene);
+            stage.setTitle("Acte de naissance");
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("teste.jpg")));
 
-        stage.show();
+            stage.show();
     }
 
     private void initialisation_Menu() {
-        //creation d'icon
         icon_menu = new Image(getClass().getResourceAsStream("menumenu.png"));
         icon_ajout = new Image(getClass().getResourceAsStream("ajouter.png"));
         icon_consu = new Image(getClass().getResourceAsStream("liste.png"));
@@ -215,8 +214,8 @@ public class App extends Application {
         PieChart pie = new PieChart();
         pie.setTitle("Diagrammes des enfants enregistrés");
         pie.setTitleSide(Side.BOTTOM);
-        PieChart.Data part1 = new PieChart.Data("Garçons", Enfant.getNombreDeGarcon());
-        PieChart.Data part2 = new PieChart.Data("Filles", Enfant.getNombreDeFille());
+        PieChart.Data part1 = new PieChart.Data("Zazavavy", Enfant.getNombreDeGarcon());
+        PieChart.Data part2 = new PieChart.Data("Zazalahy", Enfant.getNombreDeFille());
         System.out.println(Enfant.getNombreDeFille());
         pie.getData().add(part1);
         pie.getData().add(part2);

@@ -159,4 +159,42 @@ public class Parents {
         }
         return null;
     }
+
+    public static Parents supprimer(int id){
+        String deleteSQL = "DELETE FROM parents WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(deleteSQL)) {
+    
+            statement.setInt(1, id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Suppression de l'enfant échouée, aucune ligne affectée.");
+            } else {
+                System.out.println("Enfant supprimé avec succès.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la suppression de parents : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean hasOtherChildren(int idParents) {
+        String query = "SELECT COUNT(*) FROM enfant WHERE id_parents = ?";
+        try (Connection connection = DatabaseConnection.getConnect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            
+            statement.setInt(1, idParents);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la vérification des autres enfants : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
 }

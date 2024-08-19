@@ -1,5 +1,6 @@
 com\projetanais\acte\ConversionMois.class
 com\projetanais\acte\nouvelle_enfant.class
+com\projetanais\acte\ChiffreEnLettre.class
 module-info.class
 com\projetanais\acte\fenetre_consultation.class
 com\projetanais\acte\Enfant.class

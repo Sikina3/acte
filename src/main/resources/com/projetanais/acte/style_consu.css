@@ -15,3 +15,46 @@
 .column-header-background {
     -fx-background-color: red;
 }
+
+.combo-box {
+    -fx-background-color: rgb(249, 212, 170);
+}
+
+.combo-box:hover{
+    -fx-background-color: rgb(242, 228, 212);
+}
+
+.combo-box-popup {
+    -fx-background-color: rgb(88, 71, 51);
+}
+
+.button {
+    -fx-background-color: rgb(4, 115, 171);
+    -fx-pref-height: 30px;
+    -fx-pref-width: 100px;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: rgb(15, 139, 202);
+}
+
+/* Style pour le bouton de modification */
+#btn_modif {
+    -fx-background-color: #4CAF50; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 10 20; /* Espacement interne */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-background-radius: 5; /* Coins arrondis */
+}
+
+/* Style pour le bouton de visualisation */
+#btn_visual {
+    -fx-background-color: #2196F3; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 10 20; /* Espacement interne */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-background-radius: 5; /* Coins arrondis */
+}

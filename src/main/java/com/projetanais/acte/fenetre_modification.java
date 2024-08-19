@@ -235,7 +235,7 @@ public class fenetre_modification {
         initialisation_heure();
 
         ComboBox<String> sexeComboBox = new ComboBox<>();
-        sexeComboBox.getItems().addAll("Masculin", "Féminin");
+        sexeComboBox.getItems().addAll("zazalahy", "zazavavy");
         sexeComboBox.setValue(enfant.getSexe());
         sexeComboBox.setPrefWidth(300);
 
@@ -355,7 +355,12 @@ public class fenetre_modification {
             System.out.println("id de l'acte: " + acte.getId_enfants());
             acte.modifier(acte.getId_enfants());
 
-            System.out.println("Les informations ont été enregistrées avec succès !");
+            System.out.println("Les informations ont été Modifier avec succès !");
+
+            fenetre_consultation consultation = new fenetre_consultation();
+            Stage stage_consu = new Stage();
+            consultation.start(stage_consu);
+            stage.close();
         });
 
         ScrollPane scrollPane = new ScrollPane(gridPane);
@@ -391,7 +396,7 @@ public class fenetre_modification {
         jourComboBox3.setPrefWidth(100);
 
         ObservableList<String> annees = FXCollections.observableArrayList();
-        for (int i = 1980; i <= java.time.Year.now().getValue(); i++) {
+        for (int i = java.time.Year.now().getValue(); i >= 1980; i--) {
             annees.add(String.valueOf(i));
         }
         anneeComboBox = new ComboBox<>(annees);
@@ -440,7 +445,7 @@ public class fenetre_modification {
 
     private void initialisation_heure(){
         ObservableList<String> heure = FXCollections.observableArrayList();
-        for(int i = 0; i <= 23; i++){
+        for(int i = 0; i <= 12; i++){
             heure.add(String.format("%02d", i));
         }
         heureNais = new ComboBox<>(heure);

@@ -79,7 +79,7 @@ public class ConversionMois {
         String jour = ch.convertirEnLettre(Integer.parseInt(format[0]));
         String annee = ch.convertirEnLettre(Integer.parseInt(format[2]));
 
-        return (jour + " " + format[1] + " ,taona"+ annee);
+        return (jour + " " + format[1] + " ,taona "+ annee);
     }
 
 }
